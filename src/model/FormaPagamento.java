@@ -1,3 +1,5 @@
+package model;
+
 public enum FormaPagamento {
     DINHEIRO,
     CARTAO_CREDITO,

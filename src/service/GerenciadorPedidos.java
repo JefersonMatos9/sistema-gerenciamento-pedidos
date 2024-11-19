@@ -1,22 +1,22 @@
-import java.util.List;
+/*import java.util.List;
 
 public class GerenciadorPedidos {
-    private List<Pedido> pedidos;
+    private List<model.Pedido> pedidos;
     private int ultimoNumeroPedido;
 
     public void novoPedido(){
-      //  Esse método precisará incrementar o ultimoNumeroPedido e adicionar um novo objeto Pedido à lista.
+      //  Esse método precisará incrementar o ultimoNumeroPedido e adicionar um novo objeto model.Pedido à lista.
     }
 
-    public Pedido buscarPedidoPorNumero(int numeroPedido){
-
-    }
-
-    public List<Pedido> listarPedidosPorStatus(StatusPedido statusPedido){
+    public model.Pedido buscarPedidoPorNumero(int numeroPedido){
 
     }
 
-    public boolean atualizarStatusPedido(int numeroPedido, StatusPedido statusPedido){
+    public List<model.Pedido> listarPedidosPorStatus(model.StatusPedido statusPedido){
+
+    }
+
+    public boolean atualizarStatusPedido(int numeroPedido, model.StatusPedido statusPedido){
 
     }
 
@@ -24,7 +24,7 @@ public class GerenciadorPedidos {
         return faturamentoDoDia;
     }
 
-    public List<Pedido>pedidosDoDia(){
+    public List<model.Pedido>pedidosDoDia(){
 
     }
 
@@ -37,3 +37,4 @@ public class GerenciadorPedidos {
     // - Calcular faturamento do dia
     // - Listar pedidos do dia
 }
+*/

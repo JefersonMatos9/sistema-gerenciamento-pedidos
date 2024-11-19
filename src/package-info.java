@@ -1,5 +1,5 @@
-/* Classe principal que representa um Produto do cardápio
-public class Produto {
+/* Classe principal que representa um model.Produto do cardápio
+public class model.Produto {
     private int id;
     private String nome;
     private String descricao;
@@ -15,15 +15,15 @@ public class Produto {
 }
 
 // Classe que representa um Item do pedido
-public class ItemPedido {
-    private Produto produto;
+public class model.ItemPedido {
+    private model.Produto produto;
     private int quantidade;
     private String observacao;
     private double subtotal;
 
     // TODO: Implementar construtor
 
-    // TODO: Implementar getters e setters
+    // TODO: Implementar getters e Setters
 
     // TODO: Implementar método para calcular subtotal
     public double calcularSubtotal() {
@@ -31,14 +31,14 @@ public class ItemPedido {
     }
 }
 
-// Classe que representa um Pedido completo
-public class Pedido {
+// Classe que representa um model.Pedido completo
+public class model.Pedido {
     private int numeroPedido;
-    private List<ItemPedido> itens;
+    private List<model.ItemPedido> itens;
     private String cliente;
     private LocalDateTime dataHora;
-    private StatusPedido status;
-    private FormaPagamento formaPagamento;
+    private model.StatusPedido status;
+    private model.FormaPagamento formaPagamento;
     private double valorTotal;
 
     // TODO: Implementar construtor
@@ -52,7 +52,7 @@ public class Pedido {
 }
 
 // Enum para status do pedido
-public enum StatusPedido {
+public enum model.StatusPedido {
     RECEBIDO,
     EM_PREPARACAO,
     PRONTO,
@@ -61,7 +61,7 @@ public enum StatusPedido {
 }
 
 // Enum para formas de pagamento
-public enum FormaPagamento {
+public enum model.FormaPagamento {
     DINHEIRO,
     CARTAO_CREDITO,
     CARTAO_DEBITO,
@@ -70,7 +70,7 @@ public enum FormaPagamento {
 
 // Classe para gerenciar o cardápio
 public class Cardapio {
-    private List<Produto> produtos;
+    private List<model.Produto> produtos;
 
     // TODO: Implementar métodos para:
     // - Adicionar produto
@@ -83,7 +83,7 @@ public class Cardapio {
 
 // Classe para gerenciar os pedidos
 //public class GerenciadorPedidos {
-  //  private List<Pedido> pedidos;
+  //  private List<model.Pedido> pedidos;
     //private int ultimoNumeroPedido;
 
     // TODO: Implementar métodos para:

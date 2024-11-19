@@ -1,4 +1,4 @@
-import java.util.List;
+/* import java.util.List;
 
 public class Relatorios {
       private GerenciadorPedidos gerenciador;
@@ -7,8 +7,8 @@ public class Relatorios {
         // Faturamento diário
     }
 
-    public Produto calcularProdutoMaisVendido() {
-        // Produto mais vendido
+    public model.Produto calcularProdutoMaisVendido() {
+        // model.Produto mais vendido
     }
 
     public String calcularHorarioDePico() {
@@ -19,7 +19,7 @@ public class Relatorios {
         // Ticket médio dos pedidos
     }
 
-    public List<Pedido> listarCancelamentos() {
+    public List<model.Pedido> listarCancelamentos() {
         // Lista de pedidos cancelados
     }
 
@@ -33,3 +33,4 @@ public class Relatorios {
     // - Calcular ticket médio
     // - Listar cancelamentos
 }
+*/

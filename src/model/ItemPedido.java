@@ -1,25 +1,27 @@
+package model;
+
 public class ItemPedido {
     private Produto produto;
     private int quantidade;
     private String observacao;
     private double subtotal;
 
-    public ItemPedido(Produto produto, int quantidade, String observacao, double subtotal) {
+    public ItemPedido(Produto produto, int quantidade, String observacao) {
         this.produto = produto;
         this.quantidade = quantidade;
         this.observacao = observacao;
-        this.subtotal = subtotal;
+        this.subtotal = calcularSubtotal();
     }
 
     @Override
     public String toString() {
         return "ItemPedido{" +
-                "produto=" + produto +
+                "produto='" + produto.getNome() + '\'' +  // Exibe o nome do produto
                 ", quantidade=" + quantidade +
-                ", observacao='" + observacao + '\'' +
-                ", subtotal=" + subtotal +
+                ", subtotal=" + calcularSubtotal() + // Calcula o subtotal ao invés de exibir o valor já armazenado
                 '}';
     }
+
 
     public Produto getProduto() {
         return produto;
@@ -27,6 +29,7 @@ public class ItemPedido {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
+        this.subtotal = calcularSubtotal();
     }
 
     public int getQuantidade() {
@@ -35,6 +38,7 @@ public class ItemPedido {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+        this.subtotal = calcularSubtotal();
     }
 
     public String getObservacao() {
@@ -46,15 +50,10 @@ public class ItemPedido {
     }
 
     public double getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
+        return calcularSubtotal();
     }
 
     public double calcularSubtotal() {
-        // Implementar cálculo: preço do produto * quantidade
-        return 0;
+     return quantidade * produto.getPreco();
     }
 }

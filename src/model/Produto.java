@@ -1,0 +1,117 @@
+package model;
+
+import exception.EstoqueInsuficienteException;
+import exception.PrecoNegativoException;
+import exception.ProdutoNegativoException;
+
+import java.util.logging.Logger;
+
+public class Produto {
+    private static final Logger logger = Logger.getLogger(Produto.class.getName()); // iniciando o logger
+
+    private int id;
+    private String nome;
+    private String descricao;
+    private double preco;
+    private int quantidade;
+    private CategoriaProduto categoria; // Exemplo: Lanches, Bebidas, Sobremesas
+    private boolean disponivel;
+
+    public Produto(String nome, String descricao, double preco, CategoriaProduto categoria, int quantidade) throws PrecoNegativoException, ProdutoNegativoException {
+        this.nome = nome;
+        this.descricao = descricao;
+        setPreco(preco);
+        this.categoria = categoria;
+        setQuantidade(quantidade);
+        setDisponivel();
+    }
+
+    @Override
+    public String toString() {
+        return "model.Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                ", quantidade=" + quantidade +
+                ", categoria=" + categoria +
+                ", disponivel=" + disponivel +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) throws PrecoNegativoException {
+        if (preco > 0) {
+            this.preco = preco;
+        } else {
+            logger.warning("Tentativa de definir um preço negativo ou zero do produto: "+ nome + ": " + preco);
+            throw new PrecoNegativoException("O preço não pode ser negativo ou zero.");
+        }
+    }
+
+    public CategoriaProduto getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(CategoriaProduto categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) throws ProdutoNegativoException {
+        if (quantidade >= 0) {
+            this.quantidade = quantidade;
+            setDisponivel(); // atualiza a disponibilidade com base na nova quantidade
+        } else {
+            logger.warning("Tentativa de definir uma quantidade negativa de produto: " + nome + ": " + quantidade);
+            throw new ProdutoNegativoException("A quantidade de produto não pode ser negativa.");
+        }
+    }
+
+    public boolean isDisponivel() {
+        return disponivel;
+    }
+
+    public void setDisponivel() {
+        this.disponivel = quantidade > 0;
+    }
+
+    public void diminuirEstoque(int quantidade) throws EstoqueInsuficienteException {
+        if (this.quantidade < quantidade) {
+            logger.warning("Não temos quantidade suficiente para o pedido feito pelo cliente ,temos apenas: " + getQuantidade() + " ," + getNome() + " ,em estoque.");
+            throw new EstoqueInsuficienteException("O item " + getNome() + " não tem estoque suficiente.");
+        }
+        this.quantidade -= quantidade;
+    }
+}
+
