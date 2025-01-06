@@ -1,109 +1,114 @@
-/* Classe principal que representa um model.Produto do cardápio
-public class model.Produto {
-    private int id;
-    private String nome;
-    private String descricao;
-    private double preco;
-    private String categoria; // Exemplo: Lanches, Bebidas, Sobremesas
-    private boolean disponivel;
+/** MUDANÇAS NO PROJETO:
 
-    // TODO: Implementar construtor
+ 1. NO PACOTE SERVICE - Classes mantidas, apenas reorganizadas:
+ ✓ ProdutoService
+ ✓ PedidoService
+ ✓ RelatorioService (mantida com seus métodos originais)
 
-    // TODO: Implementar getters e setters
+ 2. NO PACOTE MODEL - Classes mantidas:
+ ✓ Produto
+ ✓ ItemPedido
+ ✓ Pedido
+ ✓ Cliente
 
-    // TODO: Implementar toString() para exibição formatada do produto
-}
+ 3. PACOTE REPOSITORY - Reorganização:
+ Original:
+ - Cardapio (era uma classe separada)
+ - GerenciadorPedidos (era uma classe separada)
 
-// Classe que representa um Item do pedido
-public class model.ItemPedido {
-    private model.Produto produto;
-    private int quantidade;
-    private String observacao;
-    private double subtotal;
+ Novo formato:
+ - Funcionalidades do Cardapio foram incorporadas ao:
+ * IProdutoRepository
+ * ProdutoService
 
-    // TODO: Implementar construtor
+ - Funcionalidades do GerenciadorPedidos foram incorporadas ao:
+ * IPedidoRepository
+ * PedidoService
 
-    // TODO: Implementar getters e Setters
+ 4. CLASSES QUE PRECISAM SER REIMPLEMENTADAS:
 
-    // TODO: Implementar método para calcular subtotal
-    public double calcularSubtotal() {
-        // Implementar cálculo: preço do produto * quantidade
-    }
-}
+ - RelatorioService (precisa implementar):
+ Métodos:
+ - gerarRelatorioDiario()
+ - calcularProdutosMaisVendidos()
+ - analisarHorarioPico()
+ - calcularTicketMedio()
+ - analisarCancelamentos()
 
-// Classe que representa um model.Pedido completo
-public class model.Pedido {
-    private int numeroPedido;
-    private List<model.ItemPedido> itens;
-    private String cliente;
-    private LocalDateTime dataHora;
-    private model.StatusPedido status;
-    private model.FormaPagamento formaPagamento;
-    private double valorTotal;
+ - ClienteService (precisa ser criada):
+ Métodos:
+ - cadastrarCliente()
+ - atualizarCliente()
+ - buscarPorId()
+ - listarTodos()
+ - buscarPorTelefone()
 
-    // TODO: Implementar construtor
+ - IClienteRepository (precisa ser criada):
+ Métodos:
+ - salvar(Cliente cliente)
+ - atualizar(Cliente cliente)
+ - deletar(Long id)
+ - buscarPorId(Long id)
+ - listarTodos()
+ - buscarPorTelefone(String telefone)
 
-    // TODO: Implementar métodos para:
-    // - Adicionar item ao pedido
-    // - Remover item do pedido
-    // - Calcular valor total
-    // - Alterar status do pedido
-    // - Aplicar desconto
-}
+ 5. DTOs ADICIONAIS NECESSÁRIOS:
 
-// Enum para status do pedido
-public enum model.StatusPedido {
-    RECEBIDO,
-    EM_PREPARACAO,
-    PRONTO,
-    ENTREGUE,
-    CANCELADO
-}
+ - ClienteDTO
+ Atributos:
+ - nome
+ - telefone
+ - endereco
 
-// Enum para formas de pagamento
-public enum model.FormaPagamento {
-    DINHEIRO,
-    CARTAO_CREDITO,
-    CARTAO_DEBITO,
-    PIX
-}
+ - ItemPedidoDTO
 
-// Classe para gerenciar o cardápio
-public class Cardapio {
-    private List<model.Produto> produtos;
+ Atributos:
+ - produtoId
+ - quantidade
+ - observacao
 
-    // TODO: Implementar métodos para:
-    // - Adicionar produto
-    // - Remover produto
-    // - Buscar produto por id
-    // - Buscar produtos por categoria
-    // - Listar todos os produtos
-    // - Atualizar produto
-}
+ - ResumoPedidoDTO
+ Atributos:
+ - numero
+ - cliente
+ - status
+ - valorTotal
 
-// Classe para gerenciar os pedidos
-//public class GerenciadorPedidos {
-  //  private List<model.Pedido> pedidos;
-    //private int ultimoNumeroPedido;
+ SUGESTÃO DE IMPLEMENTAÇÃO ADICIONAL:
 
-    // TODO: Implementar métodos para:
-    // - Criar novo pedido
-    // - Buscar pedido por número
-    // - Listar pedidos por status
-    // - Atualizar status do pedido
-    // - Calcular faturamento do dia
-    // - Listar pedidos do dia
-//}
+ 1. ClienteService:
+ public class ClienteService {
+ private final IClienteRepository repository;
 
-// Classe para relatórios e estatísticas
-//public class Relatorios {
-  //  private GerenciadorPedidos gerenciador;
+ public ClienteService(IClienteRepository repository) {
+ this.repository = repository;
+ }
 
-    // TODO: Implementar métodos para:
-    // - Gerar relatório de vendas diário
-    // - Calcular produto mais vendido
-    // - Calcular horário de pico
-    // - Calcular ticket médio
-    // - Listar cancelamentos
-}
-*/
+ public Cliente cadastrarCliente(ClienteDTO dto) {
+ // implementação
+ }
+ // demais métodos
+ }
+
+ 2. IClienteRepository:
+ public interface IClienteRepository {
+ Cliente salvar(Cliente cliente);
+ Cliente atualizar(Cliente cliente);
+ void deletar(Long id);
+ Optional<Cliente> buscarPorId(Long id);
+ List<Cliente> listarTodos();
+ Optional<Cliente> buscarPorTelefone(String telefone);
+ }
+
+ 3. Implementações do ClienteRepository:
+ public class ClienteMemoryRepository implements IClienteRepository {
+ private List<Cliente> clientes = new ArrayList<>();
+ private static Long proximoId = 1L;
+ // implementações
+ }
+
+ public class ClienteDBRepository implements IClienteRepository {
+ private final EntityManager entityManager;
+ // implementações
+ }
+ */

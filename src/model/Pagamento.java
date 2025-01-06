@@ -1,5 +1,6 @@
-package model;
+/**package model;
 
+import enums.FormaPagamento;
 import exception.PagamentoNaoConfirmadoException;
 
 import java.math.BigDecimal;
@@ -11,48 +12,48 @@ public class Pagamento {
     private final FormaPagamento formaPagamento;
     private double valorRecebido;
     private double valorPago;
-    private final GerenciadorTroco gerenciadorTroco;
+ //   private final GerenciadorTroco gerenciadorTroco;
     private Pedido pedido;
     private static final Logger logger = Logger.getLogger(Pagamento.class.getName());
     private static final DecimalFormat df = new DecimalFormat("#,##0.00");
     //ATIVAR A PROMOÇÃO OU NAO
     private static boolean promocaoAtiva = false;
 
-    public Pagamento(FormaPagamento formaPagamento, GerenciadorTroco gerenciadorTroco) {
+   // public Pagamento(FormaPagamento formaPagamento, GerenciadorTroco gerenciadorTroco) {
         this.formaPagamento = formaPagamento;
-        this.gerenciadorTroco = gerenciadorTroco;
+     //   this.gerenciadorTroco = gerenciadorTroco;
     }
 
     public double processarPagamento(Pedido pedido, double valorRecebido) throws PagamentoNaoConfirmadoException {
-        this.pedido = pedido;
-        this.valorRecebido = valorRecebido;
+       // this.pedido = pedido;
+       // this.valorRecebido = valorRecebido;
 
         if (pedido == null || pedido.getItens().isEmpty()) {
             throw new PagamentoNaoConfirmadoException("Pedido inválido ou vazio");
-        }
+      //  }
 
         double valorTotal = pedido.getValorTotal();
-        double valorComDesconto = aplicarDesconto(valorTotal);
+        //double valorComDesconto = aplicarDesconto(valorTotal);
 
-        switch (formaPagamento) {
-            case DINHEIRO -> processarPagamentoDinheiro(valorComDesconto);
-            case PIX, CARTAO_DEBITO, CARTAO_CREDITO -> processarPagamentoEletronico(valorComDesconto);
-        }
+       // switch (formaPagamento) {
+         //   case DINHEIRO -> processarPagamentoDinheiro(valorComDesconto);
+           // case PIX, CARTAO_DEBITO, CARTAO_CREDITO -> processarPagamentoEletronico(valorComDesconto);
+    //    }
 
-        this.valorPago = valorComDesconto;
-        logger.info("Pagamento finalizado com sucesso - Valor: R$ " + df.format(valorComDesconto));
-        return valorComDesconto;
-    }
+        //this.valorPago = valorComDesconto;
+       // logger.info("Pagamento finalizado com sucesso - Valor: R$ " + df.format(valorComDesconto));
+       // return valorComDesconto;
+  //  }
 
     private void processarPagamentoDinheiro(double valorComDesconto) throws PagamentoNaoConfirmadoException {
         if (valorRecebido < valorComDesconto) {
             throw new PagamentoNaoConfirmadoException("Valor recebido insuficiente. Necessário: R$ " +
-                    df.format(valorComDesconto) + ", Recebido: R$ " + df.format(valorRecebido));
+          //          df.format(valorComDesconto) + ", Recebido: R$ " + df.format(valorRecebido));
         }
 
         double troco = valorRecebido - valorComDesconto;
 
-        if (troco > 0 && troco > gerenciadorTroco.getTotalDisponivel()) {
+       // if (troco > 0 && troco > gerenciadorTroco.getTotalDisponivel()) {
             throw new PagamentoNaoConfirmadoException("Não há troco disponível. Troco necessário: R$ " +
                     df.format(troco) + ", Disponível: R$ " + df.format(gerenciadorTroco.getTotalDisponivel()));
         }
@@ -111,4 +112,4 @@ public class Pagamento {
     public Pedido getPedido() {
         return pedido;
     }
-}
+} */

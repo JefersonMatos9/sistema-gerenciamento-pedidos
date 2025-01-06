@@ -1,5 +1,6 @@
-package model;
+ /**package model;
 
+import enums.StatusPedido;
 import exception.EstoqueInsuficienteException;
 import exception.PagamentoNaoConfirmadoException;
 
@@ -10,11 +11,11 @@ import java.util.List;
 
 public class Pedido {
 
-
+    private Long id;
     private static int contadorPedidos = 0;
     private int numeroPedido;
     private List<ItemPedido> itens;
-    private String cliente;
+  //  private Cliente cliente;
     private LocalDateTime dataHora;
     private StatusPedido status;
     private Pagamento pagamento;
@@ -126,13 +127,13 @@ public class Pedido {
         this.itens = itens;
     }
 
-    public String getCliente() {
-        return cliente;
-    }
+  //  public String getCliente() {
+    //    return cliente;
+   // }
 
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
+   // public void setCliente(String cliente) {
+    //    this.cliente = cliente;
+    //}
 
     public LocalDateTime getDataHora() {
         return dataHora;
@@ -151,7 +152,6 @@ public class Pedido {
     }
 
 
-
     @Override
     public String toString() {
         return "Pedido{" +
@@ -163,3 +163,4 @@ public class Pedido {
     }
 }
 
+*/

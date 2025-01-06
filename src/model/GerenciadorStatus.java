@@ -1,5 +1,7 @@
 package model;
 
+import enums.StatusPedido;
+
 public class GerenciadorStatus {
     public static void validarMudancaStatus(StatusPedido statusAtual,StatusPedido novoStatus) {
         if (novoStatus == null) {

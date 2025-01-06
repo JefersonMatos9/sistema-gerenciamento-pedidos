@@ -1,5 +1,6 @@
 package model;
 
+import enums.CategoriaProduto;
 import exception.EstoqueInsuficienteException;
 import exception.PrecoNegativoException;
 import exception.ProdutoNegativoException;
@@ -9,7 +10,7 @@ import java.util.logging.Logger;
 public class Produto {
     private static final Logger logger = Logger.getLogger(Produto.class.getName()); // iniciando o logger
 
-    private int id;
+    private long id;
     private String nome;
     private String descricao;
     private double preco;
@@ -28,22 +29,22 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "model.Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", preco=" + preco +
-                ", quantidade=" + quantidade +
-                ", categoria=" + categoria +
-                ", disponivel=" + disponivel +
-                '}';
+        return "Produto:\n" +
+                "ID: " + id + "\n" +
+                "Nome: " + nome + "\n" +
+                "Descrição: " + descricao + "\n" +
+                "Preço: R$ " + String.format("%.2f", preco) + "\n" +
+                "Quantidade: " + quantidade + "\n" +
+                "Categoria: " + categoria + "\n" +
+                "Disponível: " + (disponivel ? "Sim" : "Não") + "\n";
     }
 
-    public int getId() {
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

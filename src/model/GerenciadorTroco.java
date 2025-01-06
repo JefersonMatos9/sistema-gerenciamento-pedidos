@@ -1,4 +1,4 @@
-package model;
+/**package model;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -43,3 +43,4 @@ public class GerenciadorTroco {
         return lucroTotal;
     }
 }
+*/

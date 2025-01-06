@@ -1,6 +1,7 @@
 package model;
 
 public class ItemPedido {
+    private long id;
     private Produto produto;
     private int quantidade;
     private String observacao;
@@ -22,6 +23,13 @@ public class ItemPedido {
                 '}';
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Produto getProduto() {
         return produto;
