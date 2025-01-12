@@ -1,9 +1,12 @@
 package service;
 
 import enums.CategoriaProduto;
+import enums.StatusPedido;
 import exception.PrecoNegativoException;
 import exception.ProdutoNegativoException;
+import interfaces.IPedidoRepository;
 import main.Main;
+import model.Pedido;
 import model.Produto;
 
 import java.util.ArrayList;
@@ -11,68 +14,59 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class PedidoService {
-    Produto produto;
-    private List<Produto> cardapio;
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
-    public PedidoService() {
-        this.cardapio = new ArrayList<>();
+    private final IPedidoRepository repository;
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
+    public PedidoService(IPedidoRepository repository) {
+        this.repository = repository;
     }
 
-    public void salvar(Produto produto) {
-        cardapio.add(produto);
+    public void cadastrarPedido(Pedido pedido) {
+        validarPedido(pedido);
+        repository.salvar(pedido);
+        LOGGER.info("Pedido realizado com sucesso: " + pedido.getNumeroPedido());
     }
 
-    public void excluir(String nomeProduto) {
-        if (cardapio.isEmpty()) {
-            logger.warning("A lista está vazia.");
-            return;
-        }
-        //remove todos os produtos com o nome especificado
-        boolean removido = cardapio.removeIf(produto -> produto.getNome().equalsIgnoreCase(nomeProduto));
-        if (removido) {
-            logger.info("Produto(s) " + nomeProduto + " removido(s) com sucesso.");
-        } else {
-            logger.warning("Produto(s) " + nomeProduto + " não encontrado(s).");
-        }
+    public void atualizarPedido(Pedido pedido) {
+        validarPedido(pedido);
+        repository.atualizar(pedido);
+        LOGGER.info("Pedido atualizado com sucesso: " + pedido.getNumeroPedido());
     }
 
-    public List<Produto> buscarProdutoPorCategoria(CategoriaProduto categoriaProduto) {
-        List<Produto> produtosEncontrados = new ArrayList<>();
-        for (Produto produtoAtual : cardapio) {
-            if (produtoAtual.getCategoria().equals(categoriaProduto)) {
-                produtosEncontrados.add(produtoAtual);
-            }
+    public Pedido buscarPedidoPorNumero(int numero) {
+        Pedido pedido = repository.buscarPorNumero(numero);
+        if (pedido == null) {
+            throw new IllegalArgumentException("Pedido não encontrado");
         }
-        return produtosEncontrados;
+        return pedido;
     }
 
-    public List<Produto> listarTodos() {
-        if (cardapio.isEmpty()) {
-            logger.warning("Cardapio não possui itens.");
-            return new ArrayList<>();
+    public List<Pedido> listarTodosOsPedidos() {
+        List<Pedido> pedidos = repository.listarTodos();
+        if (pedidos.isEmpty()) {
+            throw new IllegalArgumentException("Lista de pedidos esta vazia");
         }
-        logger.info("Lista com Todos os nossos Produtos:");
-        for (Produto produto : cardapio) {
-            logger.info(String.format("%s - %s - R$ %.2f - Qtd: %d",
-                    produto.getNome(),
-                    produto.getCategoria(),
-                    produto.getPreco(),
-                    produto.getQuantidade()));
-        }
-        return new ArrayList<>(cardapio);
+        return pedidos;
     }
 
-    public void atualizar(String nomeProduto, int quantidade, double novoPreco) throws ProdutoNegativoException, PrecoNegativoException {
-        for (Produto produto : cardapio) {
-            if (produto.getNome().equalsIgnoreCase(nomeProduto)) {
-                produto.setPreco(novoPreco);
-                produto.setQuantidade(quantidade);
-                logger.info("Produto " + nomeProduto + " atualizado com sucesso.");
-                return;
-            }
+    public List<Pedido> listarPedidoPorStatus(StatusPedido status) {
+        List<Pedido> pedidos = repository.listarPorStatus(status);
+        if (pedidos.isEmpty()) {
+            throw new IllegalArgumentException("Nenhum pedido encontrado para o status: " + status);
         }
-        logger.warning("Produto " + nomeProduto + " não encontrado.");
+        return pedidos;
     }
-    public void listarPorStatus(){}
+
+    private void validarPedido(Pedido pedido) {
+        if (pedido.getItens().isEmpty()) {
+            throw new IllegalArgumentException("Pedido deve conter no minimo um item");
+        }
+        if (pedido.getStatus() == null) {
+            throw new IllegalArgumentException("Status do pedido é obrigatorio");
+        }
+        if (pedido.getValorTotal() <= 0) {
+            throw new IllegalArgumentException("Valor total do pedido deve ser maior que zero");
+        }
+    }
 }

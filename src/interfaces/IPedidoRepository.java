@@ -1,17 +1,18 @@
-/**package interfaces;
+package interfaces;
 
 import enums.StatusPedido;
 import model.Pedido;
+
+import java.util.List;
 
 public interface IPedidoRepository {
     void salvar(Pedido pedido);
 
     void atualizar(Pedido pedido);
 
-    void buscarPorNumero(String numero);
+    Pedido buscarPorNumero(int numero);
 
-    void listarTodos();
+    List<Pedido> listarTodos();
 
-    void listarPorStatus(StatusPedido status);
+    List<Pedido> listarPorStatus(StatusPedido status);
 }
-*/

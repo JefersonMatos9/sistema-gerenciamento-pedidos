@@ -23,6 +23,10 @@ public class ItemPedido {
                 '}';
     }
 
+    public double calcularSubtotal() {
+        return quantidade * produto.getPreco();
+    }
+
     public long getId() {
         return id;
     }
@@ -59,9 +63,5 @@ public class ItemPedido {
 
     public double getSubtotal() {
         return calcularSubtotal();
-    }
-
-    public double calcularSubtotal() {
-     return quantidade * produto.getPreco();
     }
 }

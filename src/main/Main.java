@@ -1,9 +1,12 @@
 package main;
 
 import enums.CategoriaProduto;
+import enums.StatusPedido;
 import exception.*;
 import model.*;
+import repository.memory.PedidoMemoryRepository;
 import repository.memory.ProdutoMemoryRepository;
+import service.PedidoService;
 import service.ProdutoService;
 
 import java.util.HashMap;
@@ -16,6 +19,13 @@ public class Main {
             //   GerenciadorTroco gerenciadorTroco = new GerenciadorTroco();
             //   Map<NotasDinheiro, Integer> notasDisponiveis = new HashMap<>();
 
+            //INICIALIZAÇÃO DOS REPOSITORIOS E SERVIÇOS
+            ProdutoMemoryRepository produtoRepository = new ProdutoMemoryRepository();
+            ProdutoService produtoService = new ProdutoService(produtoRepository);
+
+            PedidoMemoryRepository pedidoRepository = new PedidoMemoryRepository();
+            PedidoService pedidoService = new PedidoService(pedidoRepository);
+
             //CRIAÇÃO DOS PRODUTOS
             Produto coxinha = new Produto("Coxinha", "Coxinha de Frango", 5.00, CategoriaProduto.SALGADOS, 3);
             Produto pastelCarne = new Produto("Pastel Carne", "Pastel de Carne", 7.99, CategoriaProduto.SALGADOS, 8);
@@ -25,16 +35,12 @@ public class Main {
             //Produto xBacon = new Produto("x-bacon", "x-bacon", 28.99, CategoriaProduto.LANCHES, 20);
 
             //SALVANDO OS PRODUTOS NA LISTA
-            ProdutoMemoryRepository repository = new ProdutoMemoryRepository();
-            ProdutoService service = new ProdutoService(repository);
-
-            service.cadastrarProduto(coxinha);
-            service.cadastrarProduto(pastelCarne);
-            //service.cadastrarProduto(cocaCola);
-            //service.cadastrarProduto(pudim);
-            //service.cadastrarProduto(xTudo);
-            //service.cadastrarProduto(xBacon);
-
+            produtoService.cadastrarProduto(coxinha);
+            produtoService.cadastrarProduto(pastelCarne);
+            //produtoService.cadastrarProduto(cocaCola);
+            //produtoService.cadastrarProduto(pudim);
+            //produtoService.cadastrarProduto(xTudo);
+            //produtoService.cadastrarProduto(xBacon);
 
             //ATUALIZANDO PRODUTOS
             //service.atualizarProduto("Coxinha", 10);
@@ -49,11 +55,35 @@ public class Main {
             //System.out.println(service.buscarProdutoPorCategoria(CategoriaProduto.SALGADOS));
 
             //LISTANDO TODOS OS PRODUTOS
-            service.listarTodosOsProdutos();
+            //produtoService.listarTodosOsProdutos();
+
+            //CRIANDO ITENS DE PEDIDO
+            ItemPedido item1 = new ItemPedido(coxinha, 2, "Maionese e ketchup");
+            ItemPedido item2 = new ItemPedido(pastelCarne,2,"");
+
+            //CRIANDO E CADASTRANDO UM PEDIDO
+            Pedido pedido = new Pedido();
+            pedido.adicionarItem(item1);
+            pedido.adicionarItem(item2);
+            pedidoService.cadastrarPedido(pedido);
+
+            Pedido pedido1 = new Pedido();
+            pedido1.adicionarItem(item2);
+            pedidoService.cadastrarPedido(pedido1);
+
+            //ATUALIZANDO PEDIDO - BUSCANDO E MODIFICANDO O STATUS
+            Pedido pedidoExistente = pedidoService.buscarPedidoPorNumero(pedido.getNumeroPedido());
+            pedidoExistente.setStatus(StatusPedido.RECEBIDO);
+            pedidoService.atualizarPedido(pedidoExistente);
+
+            //LISTANDO TODOS OS PEDIDOS
+            System.out.println("Listando todos os pedidos: " + pedidoService.listarTodosOsPedidos());
+
+produtoService.buscarProdutoPorNome("Coxinha");
 
 
-            //criação do cardapio
-            //  Cardapio cardapio = new Cardapio();
+            //CRIAÇÃO DO CARDAPIO
+          //  Cardapio cardapio = new Cardapio();
 
             //  cardapio.adicionarProduto(coxinha);
             //  cardapio.adicionarProduto(pastelCarne);
@@ -98,6 +128,8 @@ public class Main {
 
         } catch (PrecoNegativoException | ProdutoNegativoException e) {
             System.err.println("ERRO: " + e.getMessage());
+        } catch (EstoqueInsuficienteException e) {
+            throw new RuntimeException(e);
         }
     }
 }

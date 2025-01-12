@@ -1,4 +1,4 @@
- /**package model;
+package model;
 
 import enums.StatusPedido;
 import exception.EstoqueInsuficienteException;
@@ -15,10 +15,8 @@ public class Pedido {
     private static int contadorPedidos = 0;
     private int numeroPedido;
     private List<ItemPedido> itens;
-  //  private Cliente cliente;
     private LocalDateTime dataHora;
     private StatusPedido status;
-    private Pagamento pagamento;
     private double valorTotal;
 
     public Pedido() {
@@ -64,7 +62,7 @@ public class Pedido {
         this.status = novoStatus;
     }
 
-    public double finalizarPedido() throws PagamentoNaoConfirmadoException, EstoqueInsuficienteException {
+    /*public double finalizarPedido() throws PagamentoNaoConfirmadoException, EstoqueInsuficienteException {
         validarPedido();
         double valorFinal = pagamento.processarPagamento(pagamento.getPedido(), valorTotal);
         atualizarEstoque();
@@ -80,7 +78,7 @@ public class Pedido {
             throw new IllegalStateException("Pagamento não definido.");
         }
     }
-
+*/
     private void atualizarEstoque() throws EstoqueInsuficienteException {
         for (ItemPedido item : itens) {
             item.getProduto().diminuirEstoque(item.getQuantidade());
@@ -127,14 +125,6 @@ public class Pedido {
         this.itens = itens;
     }
 
-  //  public String getCliente() {
-    //    return cliente;
-   // }
-
-   // public void setCliente(String cliente) {
-    //    this.cliente = cliente;
-    //}
-
     public LocalDateTime getDataHora() {
         return dataHora;
     }
@@ -151,16 +141,15 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-
     @Override
     public String toString() {
-        return "Pedido{" +
-                "numeroPedido=" + numeroPedido +
-                ", itens=" + itens +
-                ", status=" + status +
-                ", valorTotal=" + valorTotal +
-                '}';
+        StringBuilder itensString = new StringBuilder();
+        for (ItemPedido item : itens) {
+            itensString.append("\n\t").append(item);
+        }
+        return "Pedido {\n" + "\tNúmero do Pedido: " + numeroPedido +
+                ",\n" + "\tItens: " + itensString.toString() + ",\n" +
+                "\tStatus: " + status + ",\n" + "\tValor Total: R$ " +
+                String.format("%.2f", valorTotal) + "\n" + '}';
     }
 }
-
-*/
