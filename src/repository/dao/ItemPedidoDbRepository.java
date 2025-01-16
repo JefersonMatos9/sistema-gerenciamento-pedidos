@@ -1,4 +1,4 @@
-package repository.database;
+package repository.dao;
 
 public class ItemPedidoDbRepository {
 }

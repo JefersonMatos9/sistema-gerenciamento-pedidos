@@ -53,7 +53,7 @@ public class ProdutoService {
         if (produtos.isEmpty()) {
             throw new IllegalArgumentException("Lista de Produtos esta vazia");
         }
-        for (Produto produto : produtos){
+        for (Produto produto : produtos) {
             LOGGER.info("Produto: " + produto.getNome() + " Preço: " + produto.getPreco() + " Quantidade: " + produto.getQuantidade());
         }
     }
@@ -88,5 +88,4 @@ public class ProdutoService {
         }
         return produtoParaAtualizar;
     }
-
 }

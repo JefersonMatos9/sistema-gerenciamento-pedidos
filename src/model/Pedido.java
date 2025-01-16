@@ -33,20 +33,21 @@ public class Pedido {
         if (item.getQuantidade() <= 0) {
             throw new EstoqueInsuficienteException("Deve ser adicionado 1 ou mais itens ao estoque.");
         }
-        if (item.getProduto().getQuantidade() < item.getQuantidade()) {
+        Produto produto = item.getProduto();
+        if (produto.getQuantidade() < item.getQuantidade()) {
             throw new EstoqueInsuficienteException("Não temos estoque suficiente do produto: " + item);
         }
+
         itens.add(item);
         calcularTotal();
     }
 
-    public void removerItem(String itemExcluir) {
-        for (ItemPedido item : itens) {
-            if (item.getProduto().getNome().equals(itemExcluir)) {
-                itens.remove(item);
-                calcularTotal();
-                break;
-            }
+    public void removerItem(ItemPedido itemExcluir) {
+        if (itens.removeIf(item -> item.equals(itemExcluir))) {
+            itemExcluir.getProduto().aumentarEstoque(itemExcluir.getQuantidade());
+            calcularTotal();
+        } else {
+            throw new IllegalArgumentException("Itém não encontrado no pedido");
         }
     }
 
@@ -62,24 +63,26 @@ public class Pedido {
         this.status = novoStatus;
     }
 
-    /*public double finalizarPedido() throws PagamentoNaoConfirmadoException, EstoqueInsuficienteException {
+    public double finalizarPedido() throws PagamentoNaoConfirmadoException, EstoqueInsuficienteException {
         validarPedido();
-        double valorFinal = pagamento.processarPagamento(pagamento.getPedido(), valorTotal);
         atualizarEstoque();
         this.status = StatusPedido.ENTREGUE;
-        return valorFinal;
+        return valorTotal;
     }
 
     private void validarPedido() {
         if (itens.isEmpty()) {
             throw new IllegalStateException("Pedido sem itens.");
         }
-        if (pagamento == null) {
-            throw new IllegalStateException("Pagamento não definido.");
-        }
     }
-*/
+
     private void atualizarEstoque() throws EstoqueInsuficienteException {
+        for (ItemPedido item : itens) {
+            Produto produto = item.getProduto();
+            if (produto.getQuantidade() < item.getQuantidade()) {
+                throw new IllegalArgumentException("Estoque insuficiente para o produto " + produto.getNome());
+            }
+        }
         for (ItemPedido item : itens) {
             item.getProduto().diminuirEstoque(item.getQuantidade());
         }

@@ -18,15 +18,6 @@ public class Produto {
     private CategoriaProduto categoria; // Exemplo: Lanches, Bebidas, Sobremesas
     private boolean disponivel;
 
-    public Produto(String nome, String descricao, double preco, CategoriaProduto categoria, int quantidade) throws PrecoNegativoException, ProdutoNegativoException {
-        this.nome = nome;
-        this.descricao = descricao;
-        setPreco(preco);
-        this.categoria = categoria;
-        setQuantidade(quantidade);
-        setDisponivel();
-    }
-
     @Override
     public String toString() {
         return "Produto:\n" +
@@ -72,7 +63,7 @@ public class Produto {
         if (preco > 0) {
             this.preco = preco;
         } else {
-            logger.warning("Tentativa de definir um preço negativo ou zero do produto: "+ nome + ": " + preco);
+            logger.warning("Tentativa de definir um preço negativo ou zero do produto: " + nome + ": " + preco);
             throw new PrecoNegativoException("O preço não pode ser negativo ou zero.");
         }
     }
@@ -109,10 +100,14 @@ public class Produto {
 
     public void diminuirEstoque(int quantidade) throws EstoqueInsuficienteException {
         if (this.quantidade < quantidade) {
-            logger.warning("Não temos quantidade suficiente para o pedido feito pelo cliente ,temos apenas: " + getQuantidade() + " ," + getNome() + " ,em estoque.");
+            logger.warning("Não temos quantidade suficiente para o pedido ,temos apenas: " + getQuantidade() + " ," + getNome() + " ,em estoque.");
             throw new EstoqueInsuficienteException("O item " + getNome() + " não tem estoque suficiente.");
         }
         this.quantidade -= quantidade;
+    }
+
+    public void aumentarEstoque(int quantidade){
+        this.quantidade += quantidade;
     }
 }
 
